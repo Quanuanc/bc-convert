@@ -1,10 +1,12 @@
+import csv
 import re
 from io import StringIO
 from zipfile import ZipFile
 
 import yaml
 
-from src.bc_convert.converter import DictReaderStrip
+
+# from src.bc_convert.converter import DictReaderStrip
 
 
 class Wechat:
@@ -37,9 +39,9 @@ class Wechat:
     def parse(self):
         content = self._content
         f = StringIO(content)
-        reader = DictReaderStrip(f)
+        reader = csv.DictReader(f)
         for row in reader:
-            print(row)
+            print(row['商品'])
 
     def write(self):
         pass

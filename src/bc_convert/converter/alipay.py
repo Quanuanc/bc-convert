@@ -1,10 +1,9 @@
+import csv
 import re
 from io import StringIO
 from zipfile import ZipFile
 
 import yaml
-
-from src.bc_convert.converter import DictReaderStrip
 
 
 class Alipay:
@@ -12,6 +11,7 @@ class Alipay:
         self._input = input_file
         self._config = config_file
         self._read_input()
+        self._strip_blank()
 
     def _read_input(self):
         try:
@@ -37,9 +37,17 @@ class Alipay:
     def parse(self):
         content = self._content
         f = StringIO(content)
-        reader = DictReaderStrip(f)
+        reader = csv.DictReader(f)
         for row in reader:
-            print(row)
+            print(row['商品说明'])
 
     def write(self):
         pass
+
+    def _strip_blank(self):
+        f = StringIO(self._content)
+        reader = csv.reader(f)
+        rows = []
+        for row in reader:
+            rows.append(",".join(['"{}"'.format(x.strip()) for x in row]))
+        self._content = '\n'.join(rows)
