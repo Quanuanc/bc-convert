@@ -6,9 +6,6 @@ from zipfile import ZipFile
 import yaml
 
 
-# from src.bc_convert.converter import DictReaderStrip
-
-
 class Wechat:
     def __init__(self, input_file, config_file):
         self._input = input_file
